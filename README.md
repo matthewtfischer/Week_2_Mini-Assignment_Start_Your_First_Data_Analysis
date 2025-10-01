@@ -15,3 +15,11 @@ Using a decision tree machine learning model, I tried to predict the happiness s
 
 ## Visualization
 I plotted happiness scores as a function of GDP per capita, social support, and generosity. Very interestingly, there seems to be a fairly strong positive relationship between GDP per capita and happiness up until GDP per capita is about 9. For GDP per capita at and above this, happiness score seems to be unrelated and ranges from about 4 to about 7.5. Social support had a strong positive correlation with happiness score, seemingly stronger for higher social support scores. Generosity seemed to have a very weak correlation with happiness scores, most data points were populated around the left of the graph (generosity between 0 and 0.5 and happiness scores between 3 and 7). There were also 2 notable clusters, a tail of countries with high happiness scores (between 0.6 and 1) and low-to-moderate happiness scores (between 3.5 and 5.5) and a cloud of countries with moderate generosity scores (0.3 to 0.7, this is higher than most but less than the perviously states tail) and and high happiness scores (between 7 and 8). I also wanted to look at the relation between social support and generosity, which I expected to be highly correlated, but instead, the data are mostly in the bottom left of the graph (high social support and low generosity), with a tail of points of all social support socres and generosity scores between 1 and 5 and some outliers with social support scores between 0.4 and 0.8 and happiness scores higher than 0.8.
+
+
+## Setup
+To build the Docker image, run the following command:
+docker run -p 8888:8888 my-notebook-image
+
+To create the container, run the following command:
+docker run -p 8888:8888 my-notebook-image
