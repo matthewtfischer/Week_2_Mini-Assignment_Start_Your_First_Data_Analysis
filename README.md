@@ -1,7 +1,7 @@
 # Week_2_Mini-Assignment_Start_Your_First_Data_Analysis
 IDS 706 mini-assignment, including reading in data, analysis, machine learning, and data visualization.
 
-![CI](https://github.com/yourusername/yourrepo/actions/workflows/ci.yml/badge.svg)
+![CI](https://github.com/matthewtfischer/Week_2_Mini-Assignment_Start_Your_First_Data_Analysis/actions/workflows/ci.yml/badge.svg)
 
 ## Import the Dataset
 This notebook analyzes data from the World Happiness Report over the years 2015 to 2024. This dataset includes statistics and survey data from countries all over the world in order to compare what makes a population "happy." In addition to how happy a population is, the report also collects data including GDP per capita, social support, healthy life expectancy, freedom to make life choices, generosity, and perceptions of corruption.
