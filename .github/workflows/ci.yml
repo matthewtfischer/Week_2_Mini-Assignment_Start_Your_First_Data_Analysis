@@ -29,7 +29,7 @@ jobs:
         run: black --check week5_706.py test_706_week5.py
 
       - name: Run Flake8
-        run: flake8 week5_706.py test_706_week5.py
+        run: flake8 --max-line-length=100 week5_706.py test_706_week5.py
 
       - name: Run Unit Tests
         run: python -m unittest discover -s . -p "test_706_week5.py"
