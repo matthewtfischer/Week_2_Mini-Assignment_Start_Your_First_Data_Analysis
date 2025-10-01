@@ -4,7 +4,7 @@ PYTHON = python
 
 # Run linting with flake8
 lint:
-	flake8 .
+	flake8 . 
 
 # Auto-format code with black + isort
 format:

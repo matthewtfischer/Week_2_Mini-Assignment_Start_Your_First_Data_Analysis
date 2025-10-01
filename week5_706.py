@@ -1,9 +1,13 @@
 import kagglehub
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.metrics import mean_squared_error, r2_score
+from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeRegressor
 
 path = kagglehub.dataset_download("yadiraespinoza/world-happiness-2015-2024")
 
-import numpy as np
-import pandas as pd
 
 combined_path = path + "/world_happiness_combined.csv"
 happiness = pd.read_csv(combined_path, sep=";")
@@ -83,10 +87,6 @@ summary_year_region = happiness.groupby(["Year", "Regional indicator"])[
     "Happiness score"
 ].agg(["count", "mean", "std"])
 print(summary_year_region)
-
-from sklearn.metrics import mean_squared_error, r2_score
-from sklearn.model_selection import train_test_split
-from sklearn.tree import DecisionTreeRegressor
 
 
 def train_tree_model(df, target):
@@ -170,7 +170,9 @@ tree_life_exp, X_test_life_exp, y_test_life_exp = train_tree_model(
 )
 
 # y_life_exp = happiness["Healthy life expectancy"]
-# X_life_exp = happiness[["GDP per capita", "Social support", "Freedom to make life choices", "Generosity", "Perceptions of corruption", "Healthy life expectancy"]]
+# X_life_exp = happiness[["GDP per capita", "Social support",
+#  "Freedom to make life choices", "Generosity",
+# "Perceptions of corruption", "Healthy life expectancy"]]
 
 # X_train_life_exp, X_test_life_exp, y_train_life_exp, y_test_life_exp = train_test_split(
 #     X_life_exp, y_life_exp, test_size=0.2
@@ -182,8 +184,6 @@ tree_life_exp, X_test_life_exp, y_test_life_exp = train_tree_model(
 y_pred_life_exp = tree_life_exp.predict(X_test_life_exp)
 
 print("R² (predicting life expectancy):", r2_score(y_test_life_exp, y_pred_life_exp))
-
-import matplotlib.pyplot as plt
 
 generosity = happiness["Generosity"]
 social_support = happiness["Social support"]
