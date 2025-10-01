@@ -14,6 +14,7 @@ def load_happiness_data(dataset_path):
     happiness_df = pd.read_csv(combined_path, sep=";")
     return happiness_df
 
+
 happiness_df = load_happiness_data(dataset_path)
 
 print(happiness_df.info())
