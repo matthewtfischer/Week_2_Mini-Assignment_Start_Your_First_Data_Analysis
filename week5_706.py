@@ -6,14 +6,18 @@ from sklearn.metrics import mean_squared_error, r2_score
 from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeRegressor
 
-path = kagglehub.dataset_download("yadiraespinoza/world-happiness-2015-2024")
+dataset_path = kagglehub.dataset_download("yadiraespinoza/world-happiness-2015-2024")
 
 
-combined_path = path + "/world_happiness_combined.csv"
-happiness = pd.read_csv(combined_path, sep=";")
+def load_happiness_data(dataset_path):
+    combined_path = dataset_path + "/world_happiness_combined.csv"
+    happiness_df = pd.read_csv(combined_path, sep=";")
+    return happiness_df
 
-print(happiness.info())
-print(happiness.describe())
+happiness_df = load_happiness_data(dataset_path)
+
+print(happiness_df.info())
+print(happiness_df.describe())
 
 
 def decimal_format(dataframe, column_name):
@@ -23,15 +27,15 @@ def decimal_format(dataframe, column_name):
     return dataframe
 
 
-happiness = decimal_format(happiness, "Happiness score")
-happiness = decimal_format(happiness, "GDP per capita")
-happiness = decimal_format(happiness, "Social support")
-happiness = decimal_format(happiness, "Freedom to make life choices")
-happiness = decimal_format(happiness, "Generosity")
-happiness = decimal_format(happiness, "Perceptions of corruption")
+happiness_df = decimal_format(happiness_df, "Happiness score")
+happiness_df = decimal_format(happiness_df, "GDP per capita")
+happiness_df = decimal_format(happiness_df, "Social support")
+happiness_df = decimal_format(happiness_df, "Freedom to make life choices")
+happiness_df = decimal_format(happiness_df, "Generosity")
+happiness_df = decimal_format(happiness_df, "Perceptions of corruption")
 
-print(happiness.isna().sum())
-missing_regional = happiness[happiness["Regional indicator"].isna()]
+print(happiness_df.isna().sum())
+missing_regional = happiness_df[happiness_df["Regional indicator"].isna()]
 print(missing_regional)
 
 
@@ -50,16 +54,16 @@ def update_country_regions(dataframe):
     return dataframe
 
 
-happines = update_country_regions(happiness)
+happines_df = update_country_regions(happiness_df)
 
-print(happiness.isna().sum())
+print(happiness_df.isna().sum())
 
 
 def check_duplicates(dataframe):
     return int(dataframe.duplicated().sum())
 
 
-print(check_duplicates(happiness))
+print(check_duplicates(happiness_df))
 
 
 def year_range(dataframe, years):
@@ -67,7 +71,7 @@ def year_range(dataframe, years):
 
 
 years = range(2015, 2025)
-years_df = year_range(happiness, years)
+yearly_dfs = year_range(happiness_df, years)
 
 
 def group_by_regions(dataframe):
@@ -81,9 +85,9 @@ def group_by_regions(dataframe):
     }
 
 
-regions_df = group_by_regions(happiness)
+regional_dfs = group_by_regions(happiness_df)
 
-summary_year_region = happiness.groupby(["Year", "Regional indicator"])[
+summary_year_region = happiness_df.groupby(["Year", "Regional indicator"])[
     "Happiness score"
 ].agg(["count", "mean", "std"])
 print(summary_year_region)
@@ -108,8 +112,8 @@ def train_tree_model(df, target):
     return tree_model, X_test, y_test
 
 
-tree_model, X_test, y_test = train_tree_model(
-    happiness[
+happiness_tree_model, X_test, y_test = train_tree_model(
+    happiness_df[
         [
             "GDP per capita",
             "Social support",
@@ -123,17 +127,17 @@ tree_model, X_test, y_test = train_tree_model(
     "Happiness score",
 )
 
-y_pred = tree_model.predict(X_test)
+y_pred_happiness = happiness_tree_model.predict(X_test)
 
-r2 = r2_score(y_test, y_pred)
-rmse = np.sqrt(mean_squared_error(y_test, y_pred))
+r2 = r2_score(y_test, y_pred_happiness)
+rmse = np.sqrt(mean_squared_error(y_test, y_pred_happiness))
 
 print("Decision Tree Performance")
 print("R² score:", r2)
 print("RMSE:", rmse)
 
-tree_simplified, X_test_simplified, y_test_simplified = train_tree_model(
-    happiness[["GDP per capita", "Social support", "Happiness score"]],
+happiness_tree_simplified, X_test_simplified, y_test_simplified = train_tree_model(
+    happiness_df[["GDP per capita", "Social support", "Happiness score"]],
     "Happiness score",
 )
 
@@ -147,7 +151,7 @@ tree_simplified, X_test_simplified, y_test_simplified = train_tree_model(
 # tree_simplified = DecisionTreeRegressor(max_depth=5)
 # tree_simplified.fit(X_train_simplified, y_train_simplified)
 
-y_pred_simplified = tree_simplified.predict(X_test_simplified)
+y_pred_simplified = happiness_tree_simplified.predict(X_test_simplified)
 
 print("R² (2 features):", r2_score(y_test_simplified, y_pred_simplified))
 print(
@@ -155,8 +159,8 @@ print(
     np.sqrt(mean_squared_error(y_test_simplified, y_pred_simplified)),
 )
 
-tree_life_exp, X_test_life_exp, y_test_life_exp = train_tree_model(
-    happiness[
+life_exp_tree_model, X_test_life_exp, y_test_life_exp = train_tree_model(
+    happiness_df[
         [
             "GDP per capita",
             "Social support",
@@ -181,19 +185,19 @@ tree_life_exp, X_test_life_exp, y_test_life_exp = train_tree_model(
 # tree_life_exp = DecisionTreeRegressor(max_depth=5)
 # tree_life_exp.fit(X_train_life_exp, y_train_life_exp)
 
-y_pred_life_exp = tree_life_exp.predict(X_test_life_exp)
+y_pred_life_exp = life_exp_tree_model.predict(X_test_life_exp)
 
 print("R² (predicting life expectancy):", r2_score(y_test_life_exp, y_pred_life_exp))
 
-generosity = happiness["Generosity"]
-social_support = happiness["Social support"]
+generosity = happiness_df["Generosity"]
+social_support = happiness_df["Social support"]
 plt.scatter(social_support, generosity, alpha=0.3)
 plt.xlabel("Social Support")
 plt.ylabel("Generosity")
 plt.title("Generosity vs Social Support")
 
-gdp_per_capita = happiness["GDP per capita"]
-happiness_score = happiness["Happiness score"]
+gdp_per_capita = happiness_df["GDP per capita"]
+happiness_score = happiness_df["Happiness score"]
 plt.scatter(gdp_per_capita, happiness_score, alpha=0.3)
 plt.xlabel("GDP Per Capita")
 plt.ylabel("Happiness Score")
