@@ -1,14 +1,16 @@
 import kagglehub
+
 path = kagglehub.dataset_download("yadiraespinoza/world-happiness-2015-2024")
 
-import pandas as pd
 import numpy as np
+import pandas as pd
 
 combined_path = path + "/world_happiness_combined.csv"
 happiness = pd.read_csv(combined_path, sep=";")
 
 print(happiness.info())
 print(happiness.describe())
+
 
 def decimal_format(dataframe, column_name):
     dataframe[column_name] = (
@@ -27,6 +29,7 @@ happiness = decimal_format(happiness, "Perceptions of corruption")
 print(happiness.isna().sum())
 missing_regional = happiness[happiness["Regional indicator"].isna()]
 print(missing_regional)
+
 
 def update_country_regions(dataframe):
     country_regions = {}
@@ -47,11 +50,13 @@ happines = update_country_regions(happiness)
 
 print(happiness.isna().sum())
 
+
 def check_duplicates(dataframe):
     return int(dataframe.duplicated().sum())
 
 
 print(check_duplicates(happiness))
+
 
 def year_range(dataframe, years):
     return {year: dataframe[dataframe["Year"] == year] for year in years}
@@ -79,8 +84,8 @@ summary_year_region = happiness.groupby(["Year", "Regional indicator"])[
 ].agg(["count", "mean", "std"])
 print(summary_year_region)
 
-from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error, r2_score
+from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeRegressor
 
 
@@ -203,4 +208,3 @@ plt.scatter(generosity, happiness_score, alpha=0.3)
 plt.xlabel("Generosity")
 plt.ylabel("Happiness Score")
 plt.title("Happiness Score vs Generosity")
-

@@ -1,8 +1,12 @@
 import unittest
-import pandas as pd
+
 import numpy as np
+import pandas as pd
 from sklearn.tree import DecisionTreeRegressor
-from week5_706 import decimal_format, update_country_regions, check_duplicates, year_range, group_by_regions, train_tree_model
+
+from week5_706 import (check_duplicates, decimal_format, group_by_regions,
+                       train_tree_model, update_country_regions, year_range)
+
 
 class TestDecimalFormat(unittest.TestCase):
     def test_integer_and_float_strings(self):
