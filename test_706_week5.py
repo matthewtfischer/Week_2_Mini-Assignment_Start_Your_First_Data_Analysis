@@ -4,8 +4,14 @@ import numpy as np
 import pandas as pd
 from sklearn.tree import DecisionTreeRegressor
 
-from week5_706 import (check_duplicates, decimal_format, group_by_regions,
-                       train_tree_model, update_country_regions, year_range)
+from week5_706 import (
+    check_duplicates,
+    decimal_format,
+    group_by_regions,
+    train_tree_model,
+    update_country_regions,
+    year_range,
+)
 
 
 class TestDecimalFormat(unittest.TestCase):
