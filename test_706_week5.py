@@ -32,7 +32,7 @@ class TestUpdateCountryRegions(unittest.TestCase):
             }
         )
         updated = update_country_regions(df.copy())
-        # "A" should have region "Y" (latest year)
+        # "A" should have region "Y" (latest year).
         self.assertTrue(
             (updated.loc[updated["Country"] == "A", "Regional indicator"] == "Y").all()
         )
